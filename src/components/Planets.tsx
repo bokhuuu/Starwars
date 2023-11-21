@@ -41,9 +41,12 @@ const Planets = () => {
     <div>
       <h2>Planets</h2>
 
-      <button onClick={() => setPage(1)}>page 1</button>
-      <button onClick={() => setPage(2)}>page 2</button>
-      <button onClick={() => setPage(3)}>page 3</button>
+      <button disabled={page === 1} onClick={() => setPage((page) => page - 1)}>
+        previous page
+      </button>
+      <button disabled={page === 6} onClick={() => setPage((page) => page + 1)}>
+        next page
+      </button>
 
       {data?.data.results.map((planet: PlanetData) => {
         return <Planet key={planet.name} planet={planet} />;
