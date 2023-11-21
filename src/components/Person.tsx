@@ -12,8 +12,8 @@ const Planet: React.FC<PersonProps> = ({ person }) => {
   return (
     <div className="card">
       <h3>{person.name}</h3>
-      <p>population - {person.gender}</p>
-      <p>terrain - {person.birth_year}</p>
+      <p>gender - {person.gender}</p>
+      <p>birth year - {person.birth_year}</p>
     </div>
   );
 };
