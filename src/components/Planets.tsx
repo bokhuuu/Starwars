@@ -1,19 +1,33 @@
 import { useQuery } from "react-query";
 import axios from "axios";
 import Planet from "../components/Planet";
+import { useState } from "react";
 
 interface PlanetData {
   name: string;
   population: string;
   terrain: string;
 }
-
-const fetchPlanets = () => {
-  return axios.get("http://swapi.dev/api/planets/");
+//ts@ignore
+const fetchPlanets = (page: number) => {
+  return axios.get(`https://swapi.dev/api/planets/?page=${page}`);
 };
 
 const Planets = () => {
-  const { data, isLoading, isError, error } = useQuery("planets", fetchPlanets);
+  const [page, setPage] = useState(1);
+
+  const { data, isLoading, isError, error } = useQuery(
+    ["planets", page],
+    () => fetchPlanets(page)
+    // {
+    //   // staleTime:0
+    //   // cacheTime:300000,
+    //   // onError:()=>{},
+    //   onSuccess: () => {
+    //     console.log("fetched data with out preblemo");
+    //   },
+    // }
+  );
 
   if (isLoading) {
     return <div>Loading ...</div>;
@@ -26,6 +40,11 @@ const Planets = () => {
   return (
     <div>
       <h2>Planets</h2>
+
+      <button onClick={() => setPage(1)}>page 1</button>
+      <button onClick={() => setPage(2)}>page 2</button>
+      <button onClick={() => setPage(3)}>page 3</button>
+
       {data?.data.results.map((planet: PlanetData) => {
         return <Planet key={planet.name} planet={planet} />;
       })}
